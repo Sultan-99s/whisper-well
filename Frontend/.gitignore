@@ -1,0 +1,26 @@
+# Node
+node_modules/
+dist/
+.env
+*.log
+
+# TypeScript
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+env/
+venv/
+ENV/
+*.env
+*.ipynb_checkpoints
+
+# VSCode settings
+.vscode/
+
+# System
+.DS_Store
+Thumbs.db
