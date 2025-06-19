@@ -4,12 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { AlertTriangle, Mail, Clock, CheckCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface UrgentRequest {
   id: number;
   email: string;
   message: string;
-  status: string;
+  status: string; // now can be 'pending', 'confirmed', 'declined', 'reviewed', 'resolved'
   created_at: string;
 }
 
@@ -61,10 +62,37 @@ const updateUrgentRequestStatus = async (requestId: number, status: string) => {
   }
 };
 
+const declineUrgentRequest = async (requestId: number) => {
+  try {
+    const response = await fetch(`http://localhost:8000/admin/urgent-requests/${requestId}/decline`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!response.ok) throw new Error('Failed to decline request');
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
+const markSessionAsSpam = async (bookingId: number) => {
+  try {
+    const response = await fetch(`http://localhost:8000/admin/bookings/${bookingId}/spam`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (!response.ok) throw new Error('Failed to mark as spam');
+    return await response.json();
+  } catch (error) {
+    throw error;
+  }
+};
+
 const EmergencyQueue: React.FC = () => {
   const [urgentRequests, setUrgentRequests] = useState<UrgentRequest[]>([]);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadData();
@@ -100,6 +128,31 @@ const EmergencyQueue: React.FC = () => {
       toast.success(`Request marked as ${newStatus}`);
     } catch (error) {
       toast.error('Failed to update request status');
+    }
+  };
+
+  const handleDecline = async (requestId: number) => {
+    try {
+      await declineUrgentRequest(requestId);
+      setUrgentRequests(prev => prev.filter(req => req.id !== requestId));
+      toast.success('Request declined');
+    } catch (error) {
+      toast.error('Failed to decline request');
+    }
+  };
+
+  const handleConfirmBooking = async (bookingId: number) => {
+    // Logic to confirm the booking
+    toast.success('Booking confirmed');
+  };
+
+  const handleSpamBooking = async (bookingId: number) => {
+    try {
+      await markSessionAsSpam(bookingId);
+      setBookings(prev => prev.filter(b => b.id !== bookingId));
+      toast.success('Session marked as spam');
+    } catch (error) {
+      toast.error('Failed to mark session as spam');
     }
   };
 
@@ -168,13 +221,24 @@ const EmergencyQueue: React.FC = () => {
                   
                   <div className="flex gap-2">
                     {request.status === 'pending' && (
-                      <Button 
-                        size="sm" 
-                        variant="outline"
-                        onClick={() => handleStatusUpdate(request.id, 'reviewed')}
-                      >
-                        Mark as Reviewed
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          className="bg-green-50 text-green-700"
+                          onClick={() => navigate(`/write-email/${request.id}`)}
+                        >
+                          Confirm
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          className="bg-red-50 text-red-700"
+                          onClick={() => handleDecline(request.id)}
+                        >
+                          Decline
+                        </Button>
+                      </div>
                     )}
                     {request.status === 'reviewed' && (
                       <Button 
@@ -229,9 +293,24 @@ const EmergencyQueue: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <Badge variant="outline" className="bg-blue-50 text-blue-700">
-                      Scheduled
-                    </Badge>
+                    <div className="flex gap-2">
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        className="bg-green-50 text-green-700"
+                        onClick={() => handleConfirmBooking(booking.id)}
+                      >
+                        Confirm
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        className="bg-red-50 text-red-700"
+                        onClick={() => handleSpamBooking(booking.id)}
+                      >
+                        Spam
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}

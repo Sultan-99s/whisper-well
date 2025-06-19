@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 import { ThemeProvider } from "./providers/ThemeProvider";
+import DeclinedRequests from "@/components/DeclinedRequests";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/declined" element={<DeclinedRequests />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

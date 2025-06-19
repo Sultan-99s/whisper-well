@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import AdminCalendar from '@/components/AdminCalendar';
 import EmergencyQueue from '@/components/EmergencyQueue';
+import DeclinedRequests from '@/components/DeclinedRequests';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -76,18 +76,20 @@ const Admin = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-dark-background">
       <Header />
       
       <main className="flex-grow py-12 px-4">
         <div className="container mx-auto max-w-6xl">
-          <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-dark-text-primary">
+            Admin Dashboard
+          </h1>
           
           {!isAuthenticated ? (
-            <Card className="max-w-md mx-auto">
+            <Card className="max-w-md mx-auto border dark:border-dark-border dark:bg-dark-card">
               <CardHeader>
-                <CardTitle>Admin Login</CardTitle>
-                <CardDescription>
+                <CardTitle className="dark:text-dark-text-primary">Admin Login</CardTitle>
+                <CardDescription className="dark:text-dark-text-secondary">
                   Enter your admin password to access the dashboard
                 </CardDescription>
               </CardHeader>
@@ -99,47 +101,72 @@ const Admin = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    className="dark:bg-dark-input dark:text-dark-text-primary dark:border-dark-border"
                   />
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full dark:bg-whisper-blue dark:text-white">
                     Login
                   </Button>
                 </form>
               </CardContent>
             </Card>
           ) : (
-            <Tabs defaultValue="urgent">
-              <TabsList className="mb-8">
-                <TabsTrigger value="urgent">Urgent Requests</TabsTrigger>
-                <TabsTrigger value="booked">Booked Sessions</TabsTrigger>
-                <TabsTrigger value="availability">Manage Availability</TabsTrigger>
+            <Tabs defaultValue="urgent" className="space-y-4">
+              <TabsList className="dark:bg-dark-card">
+                <TabsTrigger 
+                  value="urgent" 
+                  className="data-[state=active]:bg-whisper-blue-light dark:data-[state=active]:bg-dark-active dark:text-dark-text-primary"
+                >
+                  Urgent Requests
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="booked"
+                  className="data-[state=active]:bg-whisper-blue-light dark:data-[state=active]:bg-dark-active dark:text-dark-text-primary"
+                >
+                  Booked Sessions
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="availability"
+                  className="data-[state=active]:bg-whisper-blue-light dark:data-[state=active]:bg-dark-active dark:text-dark-text-primary"
+                >
+                  Manage Availability
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="declined"
+                  className="data-[state=active]:bg-whisper-blue-light dark:data-[state=active]:bg-dark-active dark:text-dark-text-primary"
+                >
+                  Declined Requests
+                </TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="urgent">
                 <EmergencyQueue />
               </TabsContent>
-              
+
               <TabsContent value="booked">
-                <Card>
+                <Card className="dark:bg-dark-card dark:border-dark-border">
                   <CardHeader>
-                    <CardTitle>Upcoming Sessions</CardTitle>
-                    <CardDescription>
-                      All your scheduled counseling sessions
+                    <CardTitle className="dark:text-dark-text-primary">Booked Sessions</CardTitle>
+                    <CardDescription className="dark:text-dark-text-secondary">
+                      All confirmed counseling sessions
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     {bookedSessions.length > 0 ? (
                       <div className="space-y-4">
                         {bookedSessions.map((session) => (
-                          <div key={session.id} className="border rounded-md p-4 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                          <div 
+                            key={session.id} 
+                            className="border dark:border-dark-border rounded-md p-4 bg-white dark:bg-dark-card flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                          >
                             <div>
-                              <h4 className="font-medium">{session.email}</h4>
-                              <p className="text-gray-600 text-sm">
+                              <h4 className="font-medium dark:text-dark-text-primary">{session.email}</h4>
+                              <p className="text-gray-600 dark:text-dark-text-secondary text-sm">
                                 {session.date} at {session.time}
                               </p>
                             </div>
                             <Button 
                               variant="outline" 
-                              className="shrink-0"
+                              className="shrink-0 dark:border-dark-border dark:text-dark-text-primary dark:hover:bg-dark-active"
                               onClick={() => sendMeetingLink(session.email)}
                             >
                               Send Meeting Link
@@ -148,7 +175,7 @@ const Admin = () => {
                         ))}
                       </div>
                     ) : (
-                      <div className="text-center py-12 text-gray-500">
+                      <div className="text-center py-12 text-gray-500 dark:text-dark-text-secondary">
                         <p>No booked sessions at this time.</p>
                       </div>
                     )}
@@ -158,6 +185,10 @@ const Admin = () => {
               
               <TabsContent value="availability">
                 <AdminCalendar />
+              </TabsContent>
+
+              <TabsContent value="declined">
+                <DeclinedRequests />
               </TabsContent>
             </Tabs>
           )}
