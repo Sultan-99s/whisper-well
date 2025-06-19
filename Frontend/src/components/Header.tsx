@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Shield } from 'lucide-react';
+import { ThemeToggle } from './ui/ThemeToggle';
 
 const Header: React.FC = () => {
   // Scroll to the section when clicking on a hash link
@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="border-b bg-white">
+    <header className="border-b dark:border-gray-800">
       <div className="container mx-auto py-4 px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <Shield className="h-6 w-6 text-whisper-blue" />
@@ -82,6 +82,7 @@ const Header: React.FC = () => {
             Urgent Help
           </Button>
         </div>
+        <ThemeToggle />
       </div>
     </header>
   );

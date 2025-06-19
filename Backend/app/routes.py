@@ -1,9 +1,9 @@
+from app.db import db
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, EmailStr
 from prisma.models import Slot, Booking
 from typing import List
 from datetime import datetime, date
-from app.db import db
 
 
 
@@ -52,8 +52,7 @@ async def create_or_update_slots(slot_data: SlotCreate):
                     "time_slot": time_slot,
                     "booked": False
                 }
-            )
-        
+            )     
         return {"message": "Slots updated successfully", "date": slot_data.date, "slots": slot_data.slots}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error updating slots: {str(e)}")
