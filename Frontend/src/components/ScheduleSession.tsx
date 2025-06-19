@@ -153,46 +153,48 @@ const ScheduleSession: React.FC = () => {
   };
 
   return (
-    <div id="schedule" className="section bg-whisper-blue-light/30">
-      <div className="container mx-auto">
-        <h2 className="text-center mb-2">Schedule a Session</h2>
-        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+    <div id="schedule" className="section bg-whisper-blue-light/30 dark:bg-dark-background py-16">
+      <div className="container mx-auto px-4">
+        <h2 className="text-center mb-2 text-2xl font-bold dark:text-dark-text-primary">
+          Schedule a Session
+        </h2>
+        <p className="text-center text-gray-600 dark:text-dark-text-secondary mb-12 max-w-2xl mx-auto">
           Book a free, anonymous counseling session with one of our volunteers. 
           Select a date and time that works for you, and we'll send you a secure meeting link.
         </p>
         
-        <Card className="max-w-3xl mx-auto">
+        <Card className="max-w-3xl mx-auto dark:bg-dark-card border-gray-200 dark:border-dark-card">
           <CardHeader>
-            <CardTitle>Book Your Session</CardTitle>
-            <CardDescription>
+            <CardTitle className="dark:text-dark-text-primary">Book Your Session</CardTitle>
+            <CardDescription className="dark:text-dark-text-secondary">
               Choose an available date and time slot below
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col md:flex-row gap-6">
               <div className="flex-1">
-                <h3 className="flex items-center gap-2 text-lg font-medium mb-4">
+                <h3 className="flex items-center gap-2 text-lg font-medium mb-4 dark:text-dark-text-primary">
                   <CalendarIcon className="h-5 w-5" /> Select Date
                 </h3>
                 <Calendar
                   mode="single"
                   selected={date}
                   onSelect={setDate}
-                  className="rounded-md border shadow p-3"
+                  className="rounded-md border shadow p-3 dark:bg-dark-card dark:border-dark-card"
                   disabled={{ before: new Date() }}
                 />
               </div>
               
               <div className="flex-1">
-                <h3 className="flex items-center gap-2 text-lg font-medium mb-4">
+                <h3 className="flex items-center gap-2 text-lg font-medium mb-4 dark:text-dark-text-primary">
                   <Clock className="h-5 w-5" /> Available Times
                 </h3>
                 
                 {date ? (
                   <>
                     {loading ? (
-                      <div className="h-40 flex items-center justify-center border rounded-md">
-                        <p className="text-gray-500">Loading available slots...</p>
+                      <div className="h-40 flex items-center justify-center border rounded-md dark:border-dark-card dark:bg-dark-background">
+                        <p className="text-gray-500 dark:text-dark-text-secondary">Loading available slots...</p>
                       </div>
                     ) : availableTimeSlots.length > 0 ? (
                       <div className="grid grid-cols-2 gap-2">
@@ -201,30 +203,30 @@ const ScheduleSession: React.FC = () => {
                             key={time}
                             variant={timeSlot === time ? "default" : "outline"}
                             onClick={() => handleTimeSelection(time)}
-                            className="justify-start"
+                            className="justify-start dark:border-dark-card dark:hover:bg-dark-card"
                           >
                             {time} <CheckCircle className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
                         ))}
                       </div>
                     ) : (
-                      <div className="h-40 flex items-center justify-center border rounded-md">
-                        <p className="text-gray-500">No available slots for this date. Please select another date.</p>
+                      <div className="h-40 flex items-center justify-center border rounded-md dark:border-dark-card dark:bg-dark-background">
+                        <p className="text-gray-500 dark:text-dark-text-secondary">No available slots for this date. Please select another date.</p>
                       </div>
                     )}
                   </>
                 ) : (
-                  <div className="h-40 flex items-center justify-center border rounded-md">
-                    <p className="text-gray-500">Please select a date first</p>
+                  <div className="h-40 flex items-center justify-center border rounded-md dark:border-dark-card dark:bg-dark-background">
+                    <p className="text-gray-500 dark:text-dark-text-secondary">Please select a date first</p>
                   </div>
                 )}
               </div>
             </div>
             
             {showEmailForm && (
-              <form onSubmit={handleSubmit} className="mt-6 border-t pt-6 animate-fade-in">
-                <h3 className="text-lg font-medium mb-4">Enter Your Email</h3>
-                <p className="text-sm text-gray-600 mb-4">
+              <form onSubmit={handleSubmit} className="mt-6 border-t dark:border-dark-card pt-6 animate-fade-in">
+                <h3 className="text-lg font-medium mb-4 dark:text-dark-text-primary">Enter Your Email</h3>
+                <p className="text-sm text-gray-600 dark:text-dark-text-secondary mb-4">
                   We'll send the meeting link to this email address. Your email will be removed from our system after the session.
                 </p>
                 
@@ -236,14 +238,14 @@ const ScheduleSession: React.FC = () => {
                       value={email}
                       onChange={handleEmailChange}
                       required
-                      className={`w-full ${emailError ? 'border-red-500' : ''}`}
+                      className={`w-full dark:bg-dark-background dark:border-dark-card dark:text-dark-text-primary dark:placeholder-dark-text-secondary ${emailError ? 'border-red-500' : ''}`}
                     />
                     {emailError && (
                       <p className="text-xs text-red-500 mt-1 flex items-center gap-1">
                         <AlertCircle className="h-3 w-3" /> {emailError}
                       </p>
                     )}
-                    <p className="text-xs text-gray-500 mt-1">
+                    <p className="text-xs text-gray-500 dark:text-dark-text-secondary mt-1">
                       Your email will only be used to send you the meeting link.
                     </p>
                   </div>
@@ -254,6 +256,7 @@ const ScheduleSession: React.FC = () => {
                       variant="outline" 
                       onClick={() => setShowEmailForm(false)}
                       disabled={bookingLoading}
+                      className="dark:border-dark-card dark:hover:bg-dark-card"
                     >
                       Cancel
                     </Button>
@@ -268,8 +271,8 @@ const ScheduleSession: React.FC = () => {
               </form>
             )}
           </CardContent>
-          <CardFooter className="flex-col items-start border-t pt-6">
-            <div className="bg-blue-50 p-3 rounded-md text-sm text-blue-800 w-full">
+          <CardFooter className="flex-col items-start border-t dark:border-dark-card pt-6">
+            <div className="bg-blue-50 dark:bg-dark-card p-3 rounded-md text-blue-800 dark:text-whisper-blue-light text-sm w-full">
               <strong>Your privacy matters:</strong> We don't store any personal data beyond what's needed to facilitate your session.
             </div>
           </CardFooter>

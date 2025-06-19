@@ -10,17 +10,17 @@ import PrivacyInfo from '@/components/PrivacyInfo';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-dark-background">
       <Header />
       
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="bg-gradient-to-b from-whisper-blue-light to-white py-20 px-4">
+        <section className="bg-gradient-to-b from-whisper-blue-light to-white dark:from-dark-card dark:to-dark-background py-20 px-4">
           <div className="container mx-auto max-w-4xl text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-gray-900 dark:text-dark-text-primary">
               Anonymous Support When You Need It Most
             </h1>
-            <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 dark:text-dark-text-secondary mb-8 max-w-2xl mx-auto">
               Connect with volunteer counselors for free, one-on-one private sessions. 
               No account needed, complete privacy guaranteed.
             </p>
@@ -36,40 +36,40 @@ const Index = () => {
         </section>
 
         {/* How It Works Section */}
-        <section id="how-it-works" className="section">
+        <section id="how-it-works" className="section py-16 dark:bg-dark-background">
           <div className="container mx-auto">
-            <h2 className="text-center mb-2">How It Works</h2>
-            <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            <h2 className="text-center mb-2 text-2xl font-bold dark:text-dark-text-primary">How It Works</h2>
+            <p className="text-center text-gray-600 dark:text-dark-text-secondary mb-12 max-w-2xl mx-auto">
               A simple, private process to connect you with support
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="flex flex-col items-center text-center">
-                <div className="h-12 w-12 rounded-full bg-whisper-blue-light flex items-center justify-center mb-4">
-                  <span className="text-whisper-blue font-bold">1</span>
+                <div className="h-12 w-12 rounded-full bg-whisper-blue-light dark:bg-dark-card flex items-center justify-center mb-4">
+                  <span className="text-whisper-blue dark:text-whisper-blue-light font-bold">1</span>
                 </div>
-                <h3 className="text-xl font-medium mb-2">Choose a Time</h3>
-                <p className="text-gray-600">
+                <h3 className="text-xl font-medium mb-2 dark:text-dark-text-primary">Choose a Time</h3>
+                <p className="text-gray-600 dark:text-dark-text-secondary">
                   Browse our calendar and select an available time slot that works for you.
                 </p>
               </div>
               
               <div className="flex flex-col items-center text-center">
-                <div className="h-12 w-12 rounded-full bg-whisper-blue-light flex items-center justify-center mb-4">
-                  <span className="text-whisper-blue font-bold">2</span>
+                <div className="h-12 w-12 rounded-full bg-whisper-blue-light dark:bg-dark-card flex items-center justify-center mb-4">
+                  <span className="text-whisper-blue dark:text-whisper-blue-light font-bold">2</span>
                 </div>
-                <h3 className="text-xl font-medium mb-2">Receive Link</h3>
-                <p className="text-gray-600">
+                <h3 className="text-xl font-medium mb-2 dark:text-dark-text-primary">Receive Link</h3>
+                <p className="text-gray-600 dark:text-dark-text-secondary">
                   Provide your email (just for the meeting link) and receive your private meeting details.
                 </p>
               </div>
               
               <div className="flex flex-col items-center text-center">
-                <div className="h-12 w-12 rounded-full bg-whisper-blue-light flex items-center justify-center mb-4">
-                  <span className="text-whisper-blue font-bold">3</span>
+                <div className="h-12 w-12 rounded-full bg-whisper-blue-light dark:bg-dark-card flex items-center justify-center mb-4">
+                  <span className="text-whisper-blue dark:text-whisper-blue-light font-bold">3</span>
                 </div>
-                <h3 className="text-xl font-medium mb-2">Join Session</h3>
-                <p className="text-gray-600">
+                <h3 className="text-xl font-medium mb-2 dark:text-dark-text-primary">Join Session</h3>
+                <p className="text-gray-600 dark:text-dark-text-secondary">
                   Click the link at your scheduled time to connect with a volunteer counselor anonymously.
                 </p>
               </div>

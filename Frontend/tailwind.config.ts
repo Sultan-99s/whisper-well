@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -76,6 +75,15 @@ export default {
 						dark: '#65A30D'
 					},
 					urgent: '#F43F5E',
+				},
+				dark: {
+					background: '#1a1f3c',     // Dark blue background
+					navbar: '#151933',         // Darker blue for navbar/footer
+					card: '#202544',          // Slightly lighter for cards
+					text: {
+						primary: '#ffffff',      // White text
+						secondary: '#94a3b8'     // Muted text
+					}
 				}
 			},
 			borderRadius: {

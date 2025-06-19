@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="border-b dark:border-gray-800">
+    <header className="bg-white dark:bg-dark-navbar border-b dark:border-dark-card">
       <div className="container mx-auto py-4 px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
           <Shield className="h-6 w-6 text-whisper-blue" />
