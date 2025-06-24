@@ -1,7 +1,5 @@
 generator client {
-  provider             = "prisma-client-py"
-  interface            = "asyncio"
-  recursive_type_depth = 5
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -10,28 +8,39 @@ datasource db {
 }
 
 model Slot {
-  id        Int      @id @default(autoincrement())
-  date      String   // Format: "YYYY-MM-DD"
-  time_slot String   // Format: "10:00 AM"
-  booked    Boolean  @default(false)
+  id         Int      @id @default(autoincrement())
+  date       String   // Format: "YYYY-MM-DD"
+  time_slot  String   // Format: "10:00 AM"
+  booked     Boolean  @default(false)
   created_at DateTime @default(now())
-  booking   Booking?
-  
-  @@unique([date, time_slot]) // Prevent duplicate slots for same date/time
+  booking    Booking? @relation(fields: [bookingId], references: [id])
+  bookingId  Int?     @unique
+
+  @@unique([date, time_slot])
 }
 
 model Booking {
-  id         Int      @id @default(autoincrement())
-  email      String
-  slot       Slot     @relation(fields: [slotId], references: [id])
-  slotId     Int      @unique
-  created_at DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  email     String
+  date      DateTime?
+  status    String   @default("scheduled")
+  createdAt DateTime @default(now())
+  slot      Slot?
 }
 
 model UrgentRequest {
-  id         Int      @id @default(autoincrement())
-  email      String
-  message    String
-  status     String   @default("pending") // pending, reviewed, resolved
-  created_at DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  email     String
+  message   String?
+  status    String   @default("pending") // pending, reviewed, declined, resolved
+  createdAt DateTime @default(now())
+}
+
+model DeclinedRequest {
+  id        Int      @id @default(autoincrement())
+  email     String
+  type      String   // 'urgent' or 'booking'
+  reason    String?
+  createdAt DateTime @default(now())
+  requestId Int
 }

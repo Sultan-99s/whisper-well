@@ -159,7 +159,7 @@ const Admin = () => {
                             className="border dark:border-dark-border rounded-md p-4 bg-white dark:bg-dark-card flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                           >
                             <div>
-                              <h4 className="font-medium dark:text-dark-text-primary">{session.email}</h4>
+                              <h4 className="font-medium text-gray-900 dark:text-dark-text-primary">{session.email}</h4>
                               <p className="text-gray-600 dark:text-dark-text-secondary text-sm">
                                 {session.date} at {session.time}
                               </p>

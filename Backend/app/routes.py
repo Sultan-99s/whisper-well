@@ -201,3 +201,46 @@ async def update_urgent_request_status(request_id: int, status: str):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error updating urgent request status: {str(e)}")
+
+@router.put("/urgent-requests/{request_id}/decline")
+async def decline_urgent_request(request_id: int):
+    req = await db.urgentrequest.find_unique(where={"id": request_id})
+    if not req:
+        raise HTTPException(status_code=404, detail="Request not found")
+    await db.urgentrequest.update(
+        where={"id": request_id},
+        data={"status": "declined"}
+    )
+    await db.declinedrequest.create(
+        data={
+            "email": req.email,
+            "type": "urgent",
+            "reason": "Declined by admin",
+            "requestId": request_id
+        }
+    )
+    return {"success": True}
+
+@router.put("/bookings/{booking_id}/spam")
+async def mark_booking_as_spam(booking_id: int):
+    booking = await db.booking.find_unique(where={"id": booking_id})
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    await db.booking.update(
+        where={"id": booking_id},
+        data={"status": "spam"}
+    )
+    await db.declinedrequest.create(
+        data={
+            "email": booking.email,
+            "type": "booking",
+            "reason": "Marked as spam",
+            "requestId": booking_id
+        }
+    )
+    return {"success": True}
+
+@router.get("/declined-requests")
+async def get_declined_requests():
+    declined = await db.declinedrequest.find_many(order={"createdAt": "desc"})
+    return {"declined_requests": declined}
